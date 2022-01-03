@@ -12,13 +12,22 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class DefaultController {
 
-    @GetMapping("/test")
-    public ModelAndView test() {
+    @GetMapping("/")
+    public ModelAndView main() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("index");
+        return mv;
+    }
+
+    @GetMapping("/register")
+    public ModelAndView register() {
         ModelAndView mv = new ModelAndView();
         User user = new User();
         user.setEmail("er@rt.com");
         mv.addObject("user", user);
-        mv.setViewName("index");
+        mv.setViewName("register");
         return mv;
     }
+
+
 }
