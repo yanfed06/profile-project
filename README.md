@@ -3,7 +3,7 @@
 HI
 
 
-# start appliation
+# start application
 mvn clean spring-boot:run
 
 ## use technologies 
