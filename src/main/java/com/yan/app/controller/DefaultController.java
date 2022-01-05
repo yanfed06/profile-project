@@ -1,5 +1,6 @@
 package com.yan.app.controller;
 
+import com.yan.app.model.Constants;
 import com.yan.app.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,9 @@ public class DefaultController {
     @GetMapping("/")
     public ModelAndView main() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
+        mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_HOME);
+        mv.addObject(Constants.KEY_MESSAGE, "Home Page");
+        mv.setViewName("main");
         return mv;
     }
 
