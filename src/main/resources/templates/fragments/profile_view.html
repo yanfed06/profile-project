@@ -1,3 +1,23 @@
 <th:block th:fragment="profile_view (userProfile)" xmlns:th="http://www.w3.org/1999/xhtml">
-    <h1>Profile View TEMPLATE</h1>
+    <h2>Profile View</h2>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-3">
+                <p>IMAGE</p>
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col bg-light"> First Name: </div>
+                <div class="col-6 bg-secondary" th:text="${userProfile.firstName}"></div>
+                <div class="col-5"></div>
+            </div>
+            <div class="row">
+                <div class="col bg-light">Last Name:</div>
+                <div class="col-6 bg-secondary" th:text="${userProfile.lastName}"></div>
+                <div class="col-5"></div>
+            </div>
+        </div>
+        </div>
+    </div>
 </th:block>
