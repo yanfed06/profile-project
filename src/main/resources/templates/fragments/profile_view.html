@@ -4,20 +4,20 @@
 
         <div class="row">
             <div class="col-3">
-                <p>IMAGE</p>
+                <img th;src="@{/images/}"/>
             </div>
             <div class="col-9">
                 <div class="row">
                     <div class="col bg-light"> First Name: </div>
-                <div class="col-6 bg-secondary" th:text="${userProfile.firstName}"></div>
-                <div class="col-5"></div>
+                    <div class="col-6 bg-secondary" th:text="${userProfile.firstName}"></div>
+                    <div class="col-5"></div>
+                </div>
+                <div class="row">
+                    <div class="col bg-light">Last Name:</div>
+                    <div class="col-6 bg-secondary" th:text="${userProfile.lastName}"></div>
+                    <div class="col-5"></div>
+                </div>
             </div>
-            <div class="row">
-                <div class="col bg-light">Last Name:</div>
-                <div class="col-6 bg-secondary" th:text="${userProfile.lastName}"></div>
-                <div class="col-5"></div>
-            </div>
-        </div>
         </div>
     </div>
 </th:block>
