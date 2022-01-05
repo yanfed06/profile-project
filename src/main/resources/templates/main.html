@@ -33,14 +33,14 @@
 </head>
 <body>
 
-<div th:replace="fragments/navbar :: navbar(${activeTab})"></div></nav>
+<div th:replace="fragments/navbar :: navbar(${activeTab})"></div>
 
 <main class="container">
 
     <div th:switch="${activeTab}">
-        <p th:case="home">Home Page</p>
-        <p th:case="view">Profile View</p>
-        <p th:case="edit">Profile Edit</p>
+        <div th:case="home"><div th:replace="fragments/home :: home(${message})" ></div></div>
+        <div th:case="view" ><div th:replace="fragments/profile_view :: profile_view(${userProfile})" ></div></div>
+        <div th:case="edit" ><div th:replace="fragments/profile_edit :: profile_edit(${userProfile})"> </div></div>
     </div>
 </main>
 
