@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,13 +41,14 @@ public class ProfileController {
 
     private UserProfile mockProfile() throws ParseException {
         return UserProfile.builder()
+                .uuid(UUID.randomUUID())
                 .firstName("Yan")
                 .lastName("Fedorov")
                 .hobbies("computer games")
                 .achievements("-")
                 .creation("-")
                 .school("Лицей №144")
-                .birthday(getDateFromString("2016-03-05"))
+                .birthday(getDateFromString("2006-03-05"))
                 .homeland("Russia")
                 .schoolLife("--")
                 .studies("--")

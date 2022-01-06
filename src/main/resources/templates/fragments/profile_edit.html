@@ -1,7 +1,59 @@
 <th:block th:fragment="profile_edit (userProfile)" xmlns:th="http://www.w3.org/1999/xhtml">
-    <h1>Profile Edit TEMPLATE</h1>
+    <div class="container">
+    <h2>Profile Edit</h2>
+    <div class="row">
+        <div class="col-3">
+            <img class="img-thumbnail" th:src="@{/images/1.jpg}"/>
 
-    <form action="/profile/edit" method="post">
-        
-    </form>
+        </div>
+        <div class="col-9">
+            <div class="row" style="margin-bottom:5px;">
+                <form action="/profile/edit" th:object="${userProfile}" th:formmethod="post">
+                    <input id="uuid" class="uuid" th:field="*{uuid}" type="hidden">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" th:field="*{firstName}" id="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" th:field="*{lastName}" id="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthday" class="form-label">Birthday</label>
+                        <input type="date" class="form-control" th:field="*{birthday}" id="birthday">
+                    </div>
+                    <div class="mb-3">
+                        <label for="school" class="form-label">School</label>
+                        <input type="text" class="form-control" th:field="*{school}" id="school">
+                    </div>
+                    <div class="mb-3">
+                        <label for="hobbies" class="form-label">Hobbies</label>
+                        <input type="text" class="form-control" th:field="*{hobbies}" id="hobbies">
+                    </div>
+                    <div class="mb-3">
+                        <label for="achievements" class="form-label">Achievements</label>
+                        <input type="text" class="form-control" th:field="*{achievements}" id="achievements">
+                    </div>
+                    <div class="mb-3">
+                        <label for="creation" class="form-label">Creation</label>
+                        <input type="text" class="form-control" th:field="*{creation}" id="creation">
+                    </div>
+                    <div class="mb-3">
+                        <label for="studies" class="form-label">Studies</label>
+                        <input type="text" class="form-control" th:field="*{studies}" id="studies">
+                    </div>
+                    <div class="mb-3">
+                        <label for="schoolLife" class="form-label">SchoolLife</label>
+                        <input type="text" class="form-control" th:field="*{schoolLife}" id="schoolLife">
+                    </div>
+                    <div class="mb-3">
+                        <label for="homeland" class="form-label">Homeland</label>
+                        <input type="text" class="form-control" th:field="*{homeland}" id="homeland">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
 </th:block>

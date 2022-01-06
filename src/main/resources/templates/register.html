@@ -1,14 +1,31 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="ISO-8859-1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
     <title>User Registration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
-<form action="#" th:action="@{/register}"
-      th:object="${user}" method="post">
-    Email:<input type="text" th:field="*{email}" />
-    Password:<input type="password" th:field="*{password}" />
-    <input type="submit" value="Submit" />
+
+<form th:action="@{/register}" th:object="${user}" method="post">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" th:field="*{email}" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" th:field="*{password}" id="exampleInputPassword1">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
