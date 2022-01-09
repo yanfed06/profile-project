@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.PostConstruct;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +33,5 @@ public class DefaultController {
         mv.setViewName("register");
         return mv;
     }
-
 
 }

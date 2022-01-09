@@ -1,15 +1,29 @@
 package com.yan.app.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "user_profiles")
 public class UserProfile {
+    @Id
+    @Column(name = "uuid", columnDefinition = "varchar(36)")
+    @Type(type = "uuid-char")
     private UUID uuid;
     private String firstName;
     private String lastName;
