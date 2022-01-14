@@ -3,15 +3,23 @@ package com.yan.app.controller;
 import com.yan.app.model.Constants;
 import com.yan.app.model.UserProfile;
 import com.yan.app.repository.UserProfileRepository;
+import com.yan.app.services.DataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
 import javax.websocket.server.PathParam;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +34,8 @@ import java.util.UUID;
 public class ProfileController {
 
     private final UserProfileRepository userProfileRepository;
+    private final ServletContext mContext;
+    private final DataService dataService;
 
 
 
@@ -95,6 +105,13 @@ public class ProfileController {
             UserProfile userProfile = ProfileController.mockProfile();
             userProfileRepository.save(userProfile);
         }
+    }
+
+    @PostMapping("/upload/{uuid}")
+    public RedirectView handleFileUpload(@PathParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file) throws IOException {
+
+        dataService.saveImageFile(uuid,  file);
+        return new RedirectView(mContext.getContextPath() + "/profile/edit");
     }
 
 }
