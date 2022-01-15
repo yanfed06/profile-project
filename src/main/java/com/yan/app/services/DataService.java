@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import static java.nio.file.StandardOpenOption.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
@@ -34,16 +38,19 @@ public class DataService {
 
         try {
             UserProfile userProfile = userProfileRepository.findByUuid(profileUuid);
+            Path userDirectory = Paths.get("")
+                    .toAbsolutePath();
+            Path dir = userDirectory.resolve("files");
+            if(!Files.exists(dir)){
+                Files.createDirectory(dir);
 
-            Byte[] byteObjects = new Byte[file.getBytes().length];
-
-            int i = 0;
-
-            for (byte b : file.getBytes()){
-                byteObjects[i++] = b;
             }
 
-            userProfile.setImage(byteObjects);
+            String fileName = "file_" + System.nanoTime() + ".jpg";
+
+            Path outputPath = dir.resolve(fileName);
+            Files.write(outputPath, file.getBytes(), CREATE_NEW);
+            userProfile.setImageName(outputPath.toString());
 
             userProfileRepository.save(userProfile);
         } catch (IOException e) {

@@ -7,4 +7,10 @@ spring:
     username: sa
     password:
   jpa:
-    hibernate.ddl-auto: update
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.DefaultComponentSafeNamingStrategy
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB

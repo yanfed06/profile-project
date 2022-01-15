@@ -6,20 +6,24 @@ import com.yan.app.repository.UserProfileRepository;
 import com.yan.app.services.DataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -107,11 +111,23 @@ public class ProfileController {
         }
     }
 
-    @PostMapping("/upload/{uuid}")
-    public RedirectView handleFileUpload(@PathParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file) throws IOException {
-
+    @PostMapping("/upload")
+    public RedirectView handleFileUpload(@RequestParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file) throws IOException {
+        log.info("uuid: {}", uuid);
         dataService.saveImageFile(uuid,  file);
         return new RedirectView(mContext.getContextPath() + "/profile/edit");
+    }
+
+    @RequestMapping(value = "/image/{uuid}", method = RequestMethod.GET)
+    public void getImageAsByteArray(@PathVariable("uuid") String uuid, HttpServletResponse response) throws IOException {
+        UserProfile userProfile = userProfileRepository.findByUuid(UUID.fromString(uuid));
+        InputStream in;
+        if(userProfile.getImageName() == null) {
+             in = mContext.getResourceAsStream("/images/1.jpg");
+        } else
+             in = new FileInputStream(new File(userProfile.getImageName()));
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        IOUtils.copy(in, response.getOutputStream());
     }
 
 }

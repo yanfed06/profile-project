@@ -33,6 +33,6 @@ public class UserProfile {
     private String studies;
     private String schoolLife;
     private String homeland;
-    @Lob
-    private Byte[] image;
+
+    private String imageName;
 }
