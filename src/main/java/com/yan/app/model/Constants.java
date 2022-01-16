@@ -10,6 +10,8 @@ public interface Constants {
 
     String TAB_HOME = "home";
 
+    String TAB_LIST = "list";
+
     String TAB_VIEW = "view";
 
     String TAB_EDIT = "edit";

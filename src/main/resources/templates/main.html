@@ -39,6 +39,7 @@
 
     <div th:switch="${activeTab}">
         <div th:case="home"><div th:replace="fragments/home :: home(${message})" ></div></div>
+        <div th:case="list"><div th:replace="fragments/profile_list :: profile_list(${userProfileList})" ></div></div>
         <div th:case="view" ><div th:replace="fragments/profile_view :: profile_view(${userProfile})" ></div></div>
         <div th:case="edit" ><div th:replace="fragments/profile_edit :: profile_edit(${userProfile})"> </div></div>
     </div>

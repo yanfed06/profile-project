@@ -38,6 +38,12 @@ public class DataService {
 
         try {
             UserProfile userProfile = userProfileRepository.findByUuid(profileUuid);
+            if(userProfile == null){
+                userProfile = UserProfile.builder()
+                        .uuid(profileUuid)
+                        .build();
+                userProfile = userProfileRepository.save(userProfile);
+            }
             Path userDirectory = Paths.get("")
                     .toAbsolutePath();
             Path dir = userDirectory.resolve("files");

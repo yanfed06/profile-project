@@ -1,0 +1,38 @@
+<th:block th:fragment="profile_list (userProfileList)" xmlns:th="http://www.w3.org/1999/xhtml">
+  <div class="container">
+    <h2>Profile List</h2>
+      <a th:href="@{/profile/new}" class="btn btn-primary" role="button">Add New Portfolio </a>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Birthday</th>
+            <th scope="col">School</th>
+            <th scope="col">Homeland</th>
+            <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr th:each="profile,iterStat : ${userProfileList}" th:onclick="selectProfile([[${profile.uuid}]])" style="cursor: pointer;">
+            <th scope="row" th:text="${iterStat.count}" ></th>
+            <td  th:text="${profile.firstName}"></td>
+            <td  th:text="${profile.lastName}"></td>
+            <td  th:text="${profile.birthday}"></td>
+            <td  th:text="${profile.school}"></td>
+            <td  th:text="${profile.homeland}"></td>
+           <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+    <script>
+
+        function selectProfile(uuid) {
+            selectedUuid = uuid;
+            location.href = "/profile/view/" + uuid;
+        }
+    </script>
+
+</th:block>

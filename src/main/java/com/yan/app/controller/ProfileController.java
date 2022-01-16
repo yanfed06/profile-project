@@ -7,6 +7,9 @@ import com.yan.app.services.DataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,26 +43,56 @@ public class ProfileController {
     private final UserProfileRepository userProfileRepository;
     private final ServletContext mContext;
     private final DataService dataService;
+    @Autowired
+    ResourceLoader resourceLoader;
 
-
-
-    @GetMapping("/view")
-    public ModelAndView profileView() throws ParseException {
+    @GetMapping("/list")
+    public ModelAndView getProfileList() {
         ModelAndView mv = new ModelAndView();
-        mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_VIEW);
+        mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_LIST);
         List<UserProfile> userProfiles = userProfileRepository.findAll();
-        log.info("profiles: {}", userProfiles);
-        UserProfile userProfile = userProfiles.get(0);
+        mv.addObject("userProfileList", userProfiles);
+        mv.setViewName("main");
+        return mv;
+    }
+
+    @GetMapping("/new")
+    public ModelAndView profileNew() throws ParseException {
+        UserProfile userProfile = UserProfile.builder()
+                .uuid(UUID.randomUUID())
+                .build();
+        ModelAndView mv = new ModelAndView();
+        mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_EDIT);
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
         mv.setViewName("main");
         return mv;
     }
 
-    @GetMapping("/edit")
-    public ModelAndView profileEdit() throws ParseException {
-        List<UserProfile> userProfiles = userProfileRepository.findAll();
-        log.info("profiles: {}", userProfiles);
-        UserProfile userProfile = userProfiles.get(0);
+    @GetMapping(value = {"/view", "/view/{uuid}"})
+    public ModelAndView profileView(@PathVariable(required = false) UUID uuid) throws ParseException {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_VIEW);
+        UserProfile userProfile;
+        if(uuid == null) {
+            List<UserProfile> userProfiles = userProfileRepository.findAll();
+            log.info("profiles: {}", userProfiles);
+            userProfile = userProfiles.get(0);
+        } else
+            userProfile = userProfileRepository.findByUuid(uuid);
+        mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
+        mv.setViewName("main");
+        return mv;
+    }
+
+    @GetMapping(value = {"/edit", "/edit/{uuid}"})
+    public ModelAndView profileEdit(@PathVariable( required = false) UUID uuid) throws ParseException {
+        UserProfile userProfile;
+        if(uuid == null) {
+            List<UserProfile> userProfiles = userProfileRepository.findAll();
+            log.info("profiles: {}", userProfiles);
+            userProfile = userProfiles.get(0);
+        } else
+            userProfile = userProfileRepository.findByUuid(uuid);
         ModelAndView mv = new ModelAndView();
         mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_EDIT);
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
@@ -115,15 +148,17 @@ public class ProfileController {
     public RedirectView handleFileUpload(@RequestParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file) throws IOException {
         log.info("uuid: {}", uuid);
         dataService.saveImageFile(uuid,  file);
-        return new RedirectView(mContext.getContextPath() + "/profile/edit");
+        return new RedirectView(mContext.getContextPath() + "/profile/edit/"+uuid);
     }
 
     @RequestMapping(value = "/image/{uuid}", method = RequestMethod.GET)
     public void getImageAsByteArray(@PathVariable("uuid") String uuid, HttpServletResponse response) throws IOException {
         UserProfile userProfile = userProfileRepository.findByUuid(UUID.fromString(uuid));
         InputStream in;
-        if(userProfile.getImageName() == null) {
-             in = mContext.getResourceAsStream("/images/1.jpg");
+        if(userProfile == null || userProfile.getImageName() == null) {
+             //in = mContext.getResourceAsStream("classpath:static/images/1.jpg");
+            Resource resource = resourceLoader.getResource("classpath:static/images/1.jpg");
+            in = resource.getInputStream();
         } else
              in = new FileInputStream(new File(userProfile.getImageName()));
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);

@@ -34,6 +34,7 @@
             <div class="row" style="margin-bottom:5px;">
                 <form th:action="@{/profile/edit}" th:object="${userProfile}" method="post">
                     <input id="uuid" class="uuid" th:field="*{uuid}" type="hidden">
+                    <input th:field="*{imageName}" type="hidden">
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name</label>
                         <input type="text" class="form-control" th:field="*{firstName}" id="firstName">
