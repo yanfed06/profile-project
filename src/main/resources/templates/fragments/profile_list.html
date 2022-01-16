@@ -1,17 +1,17 @@
 <th:block th:fragment="profile_list (userProfileList)" xmlns:th="http://www.w3.org/1999/xhtml">
   <div class="container">
-    <h2>Profile List</h2>
-      <a th:href="@{/profile/new}" class="btn btn-primary" role="button">Add New Portfolio </a>
+    <h2 th:text="#{common.profile.list}"></h2>
+      <a th:href="@{/profile/new}" class="btn btn-primary" role="button" th:text="#{common.profile.new}"></a>
     <table class="table table-hover">
       <thead>
       <tr>
             <th scope="col">#</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Birthday</th>
-            <th scope="col">School</th>
-            <th scope="col">Homeland</th>
-            <th scope="col">Actions</th>
+            <th scope="col" th:text="#{common.first.name}"></th>
+            <th scope="col" th:text="#{common.last.name}"></th>
+            <th scope="col" th:text="#{common.birthday}"></th>
+            <th scope="col" th:text="#{common.school}"></th>
+            <th scope="col" th:text="#{common.homeland}"></th>
+            <th scope="col" th:text="#{common.actions}"></th>
       </tr>
       </thead>
       <tbody>

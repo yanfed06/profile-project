@@ -10,11 +10,11 @@
                     <form th:action="@{/profile/upload}" th:object="${userProfile}" method="post" enctype="multipart/form-data">
                         <input class="uuid" th:field="*{uuid}" type="hidden">
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Default file input example</label>
+                            <label for="formFile" class="form-label" th:text="#{common.upload}"></label>
                             <input class="form-control" type="file" id="formFile" name="file">
                         </div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th;text="#{common.close}"></button>
+                        <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -24,58 +24,78 @@
         </div>
     </div>
     <div class="container">
-    <h2>Profile Edit</h2>
+    <h2 th:text="#{common.profile.edit}"></h2>
     <div class="row">
         <div class="col-3">
             <img class="img-thumbnail" th:src="@{${'/profile/image/' + userProfile.uuid}}"/>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Picture</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" th:text="#{common.change.picture}"></button>
         </div>
         <div class="col-9">
             <div class="row" style="margin-bottom:5px;">
                 <form th:action="@{/profile/edit}" th:object="${userProfile}" method="post">
                     <input id="uuid" class="uuid" th:field="*{uuid}" type="hidden">
                     <input th:field="*{imageName}" type="hidden">
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
+                    <div class="mb-3 row">
+                        <label for="firstName" class="col-sm-2 col-form-label" th:text="#{common.first.name}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{firstName}" id="firstName">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
+                    <div class="mb-3 row">
+                        <label for="lastName" class="col-sm-2 col-form-label" th:text="#{common.last.name}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{lastName}" id="lastName">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="birthday" class="form-label">Birthday</label>
+                    <div class="mb-3 row">
+                        <label for="birthday" class="col-sm-2 col-form-label" th:text="#{common.birthday}"></label>
+                        <div class="col-sm-10">
                         <input type="date" class="form-control" th:field="*{birthday}" id="birthday">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="school" class="form-label">School</label>
+                    <div class="mb-3 row">
+                        <label for="school" class="col-sm-2 col-form-label" th:text="#{common.school}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{school}" id="school">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="hobbies" class="form-label">Hobbies</label>
+                    <div class="mb-3 row">
+                        <label for="hobbies" class="col-sm-2 col-form-label" th:text="#{common.hobbies}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{hobbies}" id="hobbies">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="achievements" class="form-label">Achievements</label>
+                    <div class="mb-3 row">
+                        <label for="achievements" class="col-sm-2 col-form-label" th:text="#{common.achievements}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{achievements}" id="achievements">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="creation" class="form-label">Creation</label>
+                    <div class="mb-3 row">
+                        <label for="creation" class="col-sm-2 col-form-label" th:text="#{common.creation}" ></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{creation}" id="creation">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="studies" class="form-label">Studies</label>
+                    <div class="mb-3 row">
+                        <label for="studies" class="col-sm-2 col-form-label" th:text="#{common.studies}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{studies}" id="studies">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="schoolLife" class="form-label">SchoolLife</label>
+                    <div class="mb-3 row">
+                        <label for="schoolLife" class="col-sm-2 col-form-label" th:text="#{common.schoolLife}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{schoolLife}" id="schoolLife">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="homeland" class="form-label">Homeland</label>
+                    <div class="mb-3 row">
+                        <label for="homeland" class="col-sm-2 col-form-label" th:text="#{common.homeland}"></label>
+                        <div class="col-sm-10">
                         <input type="text" class="form-control" th:field="*{homeland}" id="homeland">
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
                 </form>
             </div>
         </div>
