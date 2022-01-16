@@ -19,7 +19,7 @@
             <th scope="row" th:text="${iterStat.count}" ></th>
             <td  th:text="${profile.firstName}"></td>
             <td  th:text="${profile.lastName}"></td>
-            <td  th:text="${profile.birthday}"></td>
+            <td th:text="${#dates.format(profile.birthday, 'dd-MMM-yyyy')}"></td>
             <td  th:text="${profile.school}"></td>
             <td  th:text="${profile.homeland}"></td>
            <td></td>
