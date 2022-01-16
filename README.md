@@ -1,6 +1,10 @@
 # profile-project 
 
-HI
+# Student ePortfolio
+
+Create, compile materials from their classes, co-curricular activities and interships, demonstrate their skills,
+progress and achievements.
+
 
 
 # start application
