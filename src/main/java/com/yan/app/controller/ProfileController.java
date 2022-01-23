@@ -135,7 +135,7 @@ public class ProfileController {
         return simpleDateFormatTarget.parse(date);
     }
 
-    @PostConstruct
+  //  @PostConstruct
     @Transactional
     public void initPost() throws ParseException {
         if(userProfileRepository.findByFirstName("Yan") == null) {

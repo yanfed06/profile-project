@@ -27,11 +27,11 @@ public class BasicWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
         auth
                 .inMemoryAuthentication()
                 .withUser("user")
-                .password(encoder.encode("password"))
+                .password(encoder.encode("pass1234"))
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password(encoder.encode("admin"))
+                .password(encoder.encode("mini1234"))
                 .roles("USER", "ADMIN");
     }
 

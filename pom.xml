@@ -10,7 +10,7 @@
         <version>2.6.2</version>
         <relativePath />
     </parent>
-    <groupId>org.yan</groupId>
+    <groupId>com.yan.app</groupId>
     <artifactId>profile-project</artifactId>
     <version>1.0</version>
 
@@ -69,6 +69,25 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+    <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+            <mainClass>com.yan.app.ProfileApplication</mainClass>
+        </configuration>
 
+        <executions>
+            <execution>
+                <goals>
+                    <goal>repackage</goal>
+                </goals>
+            </execution>
+        </executions>
+
+    </plugin>
+        </plugins>
+    </build>
 
 </project>
