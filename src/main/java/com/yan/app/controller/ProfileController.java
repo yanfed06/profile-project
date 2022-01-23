@@ -18,15 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -100,7 +97,6 @@ public class ProfileController {
         return mv;
     }
     @PostMapping("/edit")
- //   @Transactional
     public ModelAndView updateProfile(UserProfile userProfile) throws ParseException {
         log.info("Profile: {}", userProfile);
         if(userProfileRepository.existsById(userProfile.getUuid())) {
@@ -111,6 +107,27 @@ public class ProfileController {
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
         mv.setViewName("main");
         return mv;
+    }
+
+    @PostMapping("/upload")
+    public RedirectView handleFileUpload(@RequestParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file) throws IOException {
+        log.info("uuid: {}", uuid);
+        dataService.saveImageFile(uuid,  file);
+        return new RedirectView(mContext.getContextPath() + "/profile/edit/"+uuid);
+    }
+
+    @RequestMapping(value = "/image/{uuid}", method = RequestMethod.GET)
+    public void getImageAsByteArray(@PathVariable("uuid") String uuid, HttpServletResponse response) throws IOException {
+        UserProfile userProfile = userProfileRepository.findByUuid(UUID.fromString(uuid));
+        InputStream in;
+        if(userProfile == null || userProfile.getImageName() == null) {
+             //in = mContext.getResourceAsStream("classpath:static/images/1.jpg");
+            Resource resource = resourceLoader.getResource("classpath:static/images/1.jpg");
+            in = resource.getInputStream();
+        } else
+             in = new FileInputStream(new File(userProfile.getImageName()));
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        IOUtils.copy(in, response.getOutputStream());
     }
 
     public static UserProfile mockProfile() throws ParseException {
@@ -135,7 +152,7 @@ public class ProfileController {
         return simpleDateFormatTarget.parse(date);
     }
 
-  //  @PostConstruct
+    //  @PostConstruct
     @Transactional
     public void initPost() throws ParseException {
         if(userProfileRepository.findByFirstName("Yan") == null) {
@@ -143,26 +160,4 @@ public class ProfileController {
             userProfileRepository.save(userProfile);
         }
     }
-
-    @PostMapping("/upload")
-    public RedirectView handleFileUpload(@RequestParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file) throws IOException {
-        log.info("uuid: {}", uuid);
-        dataService.saveImageFile(uuid,  file);
-        return new RedirectView(mContext.getContextPath() + "/profile/edit/"+uuid);
-    }
-
-    @RequestMapping(value = "/image/{uuid}", method = RequestMethod.GET)
-    public void getImageAsByteArray(@PathVariable("uuid") String uuid, HttpServletResponse response) throws IOException {
-        UserProfile userProfile = userProfileRepository.findByUuid(UUID.fromString(uuid));
-        InputStream in;
-        if(userProfile == null || userProfile.getImageName() == null) {
-             //in = mContext.getResourceAsStream("classpath:static/images/1.jpg");
-            Resource resource = resourceLoader.getResource("classpath:static/images/1.jpg");
-            in = resource.getInputStream();
-        } else
-             in = new FileInputStream(new File(userProfile.getImageName()));
-        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        IOUtils.copy(in, response.getOutputStream());
-    }
-
 }
