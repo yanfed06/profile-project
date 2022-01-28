@@ -1,7 +1,9 @@
 package com.yan.app.controller;
 
+import com.yan.app.model.Achievement;
 import com.yan.app.model.Constants;
 import com.yan.app.model.UserProfile;
+import com.yan.app.repository.AchievementRepository;
 import com.yan.app.repository.UserProfileRepository;
 import com.yan.app.services.DataService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,7 @@ import java.util.UUID;
 public class ProfileController {
 
     private final UserProfileRepository userProfileRepository;
+    private final AchievementRepository achievementRepository;
     private final ServletContext mContext;
     private final DataService dataService;
     @Autowired
@@ -116,6 +119,14 @@ public class ProfileController {
         return new RedirectView(mContext.getContextPath() + "/profile/edit/"+uuid);
     }
 
+    @PostMapping("/achievement/add")
+    public RedirectView addAchievement(@RequestParam("uuid") UUID uuid, @RequestParam("file") MultipartFile file,
+                                       @RequestParam("description") String description) throws IOException {
+        log.info("uuid: {}", uuid);
+        dataService.addAchievement(uuid,  file, description);
+        return new RedirectView(mContext.getContextPath() + "/profile/edit/"+uuid);
+    }
+
     @RequestMapping(value = "/image/{uuid}", method = RequestMethod.GET)
     public void getImageAsByteArray(@PathVariable("uuid") String uuid, HttpServletResponse response) throws IOException {
         UserProfile userProfile = userProfileRepository.findByUuid(UUID.fromString(uuid));
@@ -127,6 +138,32 @@ public class ProfileController {
         } else
              in = new FileInputStream(new File(userProfile.getImageName()));
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        IOUtils.copy(in, response.getOutputStream());
+    }
+
+    @RequestMapping(value = "/imageach/{uuid}", method = RequestMethod.GET)
+    public void getImageAchAsByteArray(@PathVariable("uuid") String uuid, HttpServletResponse response) throws IOException {
+        Achievement achievement = achievementRepository.findByUuid(UUID.fromString(uuid));
+        InputStream in;
+        if(achievement == null || achievement.getImageName() == null) {
+            //in = mContext.getResourceAsStream("classpath:static/images/1.jpg");
+            Resource resource = resourceLoader.getResource("classpath:static/images/1.jpg");
+            in = resource.getInputStream();
+            response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        } else {
+
+            String ext = achievement.getImageName().substring(achievement.getImageName().lastIndexOf(".")+1);
+            if(ext.equalsIgnoreCase("pdf")) {
+                Resource resource = resourceLoader.getResource("classpath:static/images/pdf.png");
+                in = resource.getInputStream();
+                response.setContentType(MediaType.IMAGE_PNG_VALUE);
+            }
+            else {
+                in = new FileInputStream(new File(achievement.getImageName()));
+                response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+            }
+        }
+
         IOUtils.copy(in, response.getOutputStream());
     }
 

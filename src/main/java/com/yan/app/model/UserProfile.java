@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -28,11 +29,13 @@ public class UserProfile {
     private Date birthday;
     private String school;
     private String hobbies;
+    @Deprecated
     private String achievements;
     private String creation;
     private String studies;
     private String schoolLife;
     private String homeland;
-
     private String imageName;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "userProfile")
+    private List<Achievement> achievementList;
 }

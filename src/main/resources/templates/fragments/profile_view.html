@@ -34,11 +34,6 @@
                     <div class="col-4"></div>
                 </div>
                 <div class="row" style="margin-bottom:5px;">
-                    <div class="col-2 bg-secondary" th:text="#{common.achievements}"></div>
-                    <div class="col-6 bg-light" th:text="${userProfile.achievements}"></div>
-                    <div class="col-4"></div>
-                </div>
-                <div class="row" style="margin-bottom:5px;">
                     <div class="col-2 bg-secondary" th:text="#{common.creation}"></div>
                     <div class="col-6 bg-light" th:text="${userProfile.creation}"></div>
                     <div class="col-4"></div>
@@ -56,6 +51,34 @@
                 <div class="row" style="margin-bottom:5px;">
                     <div class="col-2 bg-secondary" th:text="#{common.homeland}"></div>
                     <div class="col-6 bg-light" th:text="${userProfile.homeland}"></div>
+                    <div class="col-4"></div>
+                </div>
+
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-2 bg-secondary" th:text="#{common.achievements}"></div>
+                    <div class="col-6 bg-light" th:if="${!#lists.isEmpty(userProfile.achievementList) }">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item" th:each="achievement,iterStat : ${userProfile.achievementList}"
+                                     th:classappend="${iterStat.count == 1 ? 'active' : ''}">
+                                    <img th:src="@{${'/profile/imageach/' + achievement.uuid}}"
+                                         class="d-block " style="height: 300px; width: auto; margin-left: auto; margin-right: auto;">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <p th:text="${achievement.description}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
+                    </div>
                     <div class="col-4"></div>
                 </div>
             </div>

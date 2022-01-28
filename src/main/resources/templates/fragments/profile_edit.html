@@ -3,7 +3,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -13,12 +13,34 @@
                             <label for="formFile" class="form-label" th:text="#{common.upload}"></label>
                             <input class="form-control" type="file" id="formFile" name="file">
                         </div>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th;text="#{common.close}"></button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{common.close}"></button>
                         <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
                     </form>
                 </div>
-                <div class="modal-footer">
-
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="achievementsModal" tabindex="-1" aria-labelledby="achievementsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="achievementsModalLabel" th:text="#{common.achievements}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/profile/achievement/add}" th:object="${userProfile}" method="post" enctype="multipart/form-data">
+                        <input class="uuid" th:field="*{uuid}" type="hidden">
+                        <div class="mb-3">
+                            <label for="formFile1" class="form-label" th:text="#{common.select.achievements}"></label>
+                            <input class="form-control" type="file" id="formFile1" name="file">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" th:text="#{common.description}"></span>
+                            <textarea type="text" class="form-control" id="inputDescription" name="description"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{common.close}"></button>
+                        <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -65,12 +87,7 @@
                         <input type="text" class="form-control" th:field="*{hobbies}" id="hobbies">
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label for="achievements" class="col-sm-2 col-form-label" th:text="#{common.achievements}"></label>
-                        <div class="col-sm-10">
-                        <input type="text" class="form-control" th:field="*{achievements}" id="achievements">
-                        </div>
-                    </div>
+
                     <div class="mb-3 row">
                         <label for="creation" class="col-sm-2 col-form-label" th:text="#{common.creation}" ></label>
                         <div class="col-sm-10">
@@ -96,6 +113,8 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#achievementsModal" th:text="#{common.change.achievements}"></button>
+
                 </form>
             </div>
         </div>
