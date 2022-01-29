@@ -6,6 +6,7 @@
       <thead>
       <tr>
             <th scope="col">#</th>
+            <th scope="col">фото</th>
             <th scope="col" th:text="#{common.first.name}"></th>
             <th scope="col" th:text="#{common.last.name}"></th>
             <th scope="col" th:text="#{common.birthday}"></th>
@@ -17,6 +18,8 @@
       <tbody>
        <tr th:each="profile,iterStat : ${userProfileList}" th:onclick="selectProfile([[${profile.uuid}]])" style="cursor: pointer;">
             <th scope="row" th:text="${iterStat.count}" ></th>
+           <td><img th:src="@{${'/profile/image/' + profile.uuid}}"
+                    class="d-block " style="height: 50px; width: auto;">   </td>
             <td  th:text="${profile.firstName}"></td>
             <td  th:text="${profile.lastName}"></td>
             <td th:text="${#dates.format(profile.birthday, 'dd-MMM-yyyy')}"></td>

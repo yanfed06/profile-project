@@ -11,11 +11,11 @@
                         <a class="nav-link" aria-current="page" th:classappend="${activeTab == 'list' ? 'active' : ''}" th:href="@{/}" th:text="#{common.home}"></a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link"  th:classappend="${activeTab == 'view' ? 'active' : ''}" th:href="@{/profile/view}" th:text="#{common.profile.view}"></a>
+                    <li class="nav-item" th:if="${!#strings.isEmpty(selected)}">
+                        <a class="nav-link" th:classappend="${activeTab == 'view' ? 'active' : ''}" th:href="@{${'/profile/view/' + selected}}" th:text="#{common.profile.view}"></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activeTab == 'edit' ? 'active' : ''}" th:href="@{/profile/edit}" th:text="#{common.profile.edit}"></a>
+                    <li class="nav-item" th:if="${!#strings.isEmpty(selected)}">
+                        <a class="nav-link" th:classappend="${activeTab == 'edit' ? 'active' : ''}" th:href="@{${'/profile/edit/' + selected}}" th:text="#{common.profile.edit}"></a>
                     </li>
                 </ul>
                 <form class="d-flex">

@@ -15,4 +15,6 @@ public interface Constants {
     String TAB_VIEW = "view";
 
     String TAB_EDIT = "edit";
+
+    String SELECTED = "selected";
 }

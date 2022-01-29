@@ -117,7 +117,25 @@
 
                 </form>
             </div>
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item content clossable" th:each="achievement,iterStat : ${userProfile.achievementList}">
+                        <a class="close" th:href="@{${'/profile/achievement/delete/'+ achievement.uuid}}"></a>
+                        <img th:src="@{${'/profile/imageach/' + achievement.uuid}}"
+                             class="d-block " style="height: 100px; width: auto;">
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
+        <script th:inline="javascript">
+        $('.content.clossable').hover(function(){
+            $(this).find('.close').animate({opacity:1},100)
+            },function(){
+                $(this).find('.close').animate({opacity:0},100)
+            }
+        )
+    </script>
     </div>
+
 </th:block>

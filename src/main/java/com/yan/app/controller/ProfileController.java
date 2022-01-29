@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,6 +54,7 @@ public class ProfileController {
         mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_LIST);
         List<UserProfile> userProfiles = userProfileRepository.findAll();
         mv.addObject("userProfileList", userProfiles);
+        mv.addObject(Constants.SELECTED, "");
         mv.setViewName("main");
         return mv;
     }
@@ -64,6 +67,7 @@ public class ProfileController {
         ModelAndView mv = new ModelAndView();
         mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_EDIT);
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
+        mv.addObject(Constants.SELECTED, userProfile.getUuid());
         mv.setViewName("main");
         return mv;
     }
@@ -80,6 +84,7 @@ public class ProfileController {
         } else
             userProfile = userProfileRepository.findByUuid(uuid);
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
+        mv.addObject(Constants.SELECTED, userProfile.getUuid());
         mv.setViewName("main");
         return mv;
     }
@@ -96,18 +101,19 @@ public class ProfileController {
         ModelAndView mv = new ModelAndView();
         mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_EDIT);
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
+        mv.addObject(Constants.SELECTED, userProfile.getUuid());
         mv.setViewName("main");
         return mv;
     }
     @PostMapping("/edit")
     public ModelAndView updateProfile(UserProfile userProfile) throws ParseException {
         log.info("Profile: {}", userProfile);
-        if(userProfileRepository.existsById(userProfile.getUuid())) {
-            userProfile = userProfileRepository.save(userProfile);
-        }
+        userProfile = userProfileRepository.save(userProfile);
+
         ModelAndView mv = new ModelAndView();
         mv.addObject(Constants.KEY_ACTIVE_TAB, Constants.TAB_VIEW);
         mv.addObject(Constants.KEY_USER_PROFILE, userProfile);
+        mv.addObject(Constants.SELECTED, userProfile.getUuid());
         mv.setViewName("main");
         return mv;
     }
@@ -125,6 +131,16 @@ public class ProfileController {
         log.info("uuid: {}", uuid);
         dataService.addAchievement(uuid,  file, description);
         return new RedirectView(mContext.getContextPath() + "/profile/edit/"+uuid);
+    }
+
+    @GetMapping("/achievement/delete/{uuid}")
+    public RedirectView deleteAchievement(@PathVariable("uuid") UUID uuid) throws IOException {
+        log.info("uuid: {}", uuid);
+        Achievement achievement = achievementRepository.findByUuid(uuid);
+        Files.deleteIfExists(Paths.get(achievement.getImageName()));
+        UUID profileUuid = achievement.getUserProfile().getUuid();
+        achievementRepository.delete(achievement);
+        return new RedirectView(mContext.getContextPath() + "/profile/edit/"+profileUuid);
     }
 
     @RequestMapping(value = "/image/{uuid}", method = RequestMethod.GET)
